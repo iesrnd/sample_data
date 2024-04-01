@@ -1,0 +1,36 @@
+MACRO
+# This macro for generating Laney's P prime chart
+# Programmed By Jongseon Lee(Institute of Engineering Statistics Inc.)
+# mailto: info.iesrnd@gmail.com
+# Date 01 April 2024
+
+Laney_P X N
+MCOLUMN X N cP cPbar cZ cSigma_Z
+MCONSTANT Sigma_P Sigma_Z
+
+# Step 1. Get P and Pbar
+PChart X N;
+  PPoints cP;
+  CenLine cPbar.
+
+# Step 2. Get Sigma P
+Let Sigma_P = SQRT(cPbar(1)*(1-cPbar(1))/N(1))
+
+# Step 3. Get Z
+Let cZ = (cP - cPbar) / Sigma_P
+
+# Step 4. Get Moving Range of Z and Sigma Z
+MRchart cZ;
+  Variation cSigma_Z.
+Let Sigma_Z = cSigma_Z(1)
+
+Print Sigma_Z
+
+# Step 5. Modified Sigma_P
+Let Sigma_P = Sigma_P * Sigma_Z
+
+IChart cP;
+  Title "Laney P' Chart";
+  Sigma Sigma_P.
+
+ENDMACRO
